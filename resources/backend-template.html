@@ -1,0 +1,27 @@
+<html>
+<style>
+    * {
+        font-family: Arial;
+    }
+    blockquote {
+        font-family: "Courier New";
+    }
+</style>
+<body>
+
+<h1>Server information: {{.ServerName}}</h1>
+<h2>Network</h2>
+<blockquote>
+    {{range .Network}}
+        {{.}}</br>
+    {{end}}
+</blockquote>
+<h2>Environment variables</h2>
+<blockquote>
+    {{range .Envs}}
+        {{.}}</br>
+    {{end}}
+</blockquote>
+
+</body>
+</html>

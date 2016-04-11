@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  backend-1:
+    image: nb-backend
+    container_name: Backend1
+    ports:
+      - 8080:8080
+    environment:
+      - "constraint:node==nb1"
+      - SERVERNAME=Server1
+
+  backend-2:
+    image: nb-backend
+    container_name: Backend2
+    ports:
+      - 8080:8080
+    environment:
+      - "constraint:node==nb2"
+      - SERVERNAME=Server2
+
+  backend-3:
+    image: nb-backend
+    container_name: Backend3
+    ports:
+      - 8080:8080
+    environment:
+      - "constraint:node==nb3"
+      - SERVERNAME=Server3
+
+networks:
+  default:
+    external:
+      name: my-net
