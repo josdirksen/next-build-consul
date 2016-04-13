@@ -30,40 +30,160 @@
 
 
 
-### We moved from this...
+### From three tier to Microservices
 
-![alt text](../images/2-layer.png "Logo Title Text 1")
-
-
-
-### To this...
-
-![alt text](../images/n-layer.png "Logo Title Text 1")
-
-
-
-### Or even this...
-
-![alt text](../images/n-layer-container.png "Logo Title Text 1")
+![](../images/3-to-ms.png)
 
 
 
 ### Running Microservices is hard
 
-* Where is my other service?
+* Where is my other service or database?
 * Am I healthy, is the other one healthy?
-* Where do I store configuration
+* Where do I store configuration?
+* How do I handle redundancy and failover?
 * ...
 
 >*["Distributed systems are hard"]()*, says everyone
 
 
 
-### What we want...
+# Service Discovery
 
-![alt text](../images/registry-discovery.png "Logo Title Text 1")
-* Lightweight and non intrusive
-* Simple, so no UUDI or WSRR
+![](../images/shouldnt_be_hard.png)
 
 
-### You can use 
+
+### Basic approach
+
+Hardcoded IP Address or [DNS]() Lookup
+
+![](../images/sd-1.png)
+
+* [DNS]() Lookup is nice!
+* Requires managing names (config files), DNS Server
+* How to handle failover? 
+
+
+
+### Now with failover
+
+Point [DNS]() to a loadbalancer
+
+![](../images/sd-2.png)
+
+* Works nicely with [DNS]()!
+* How to check health and register services?
+* Programmatic access to LB?
+
+
+
+### What would be nice
+
+![](../images/sd-3.png)
+* Does [Lookups](): Lightweight ([DNS](), REST) support failover
+* Has flexible [Health checking]() and manages [Configuration]()
+
+
+
+# Consul
+> "Consul [..] provides an opinionated framework for service discovery and eliminates the guess-work and development effort. Clients simply register services and then perform discovery using a DNS or HTTP interface. Other systems require a home-rolled solution." 
+> *-* [consul.io]()
+
+
+
+## Main Features
+
+* Service discovery through REST and DNS
+* Simple registration using REST API
+* Distributed KV store for configuration
+* Provides extensive health checking
+
+*All in one package*
+
+
+
+### Consul Architecture
+
+![](../images/consul-arch.png)
+
+
+
+### Service Registration Flow
+1. `Service` calls `Consul Agent` with registration message: http://agent_host/v1/agent/service/register.
+2. `Agent` communicates registration with `Consul Server`
+3. `Agent` checks health of `Service`.
+4. If check succeeds mark as `Healthy`, if not mark as `Unhealthy`, communicate results with `Server`
+5. When a lookup for `Service` occurs, only return `Healthy` services
+
+
+
+### Sample: registration message
+
+```
+{
+  "Name": "service1",
+  "address": "10.0.0.12",
+  "port": 8080,
+  "Check": {
+     "http": "http://10.0.0.12:8080/health",
+     "interval": "5s"
+  }
+}
+```
+* Send when a new service starts up
+* Check types: `script`, `http`, `tcp`, `TTL`, `Docker`
+
+
+
+## Sample: DNS Lookup
+
+```
+$dig @nb-consul.local backend-service.service.consul       
+
+; <<>> DiG 9.8.3-P1 <<>> @nb-consul.local backend-service.service.consul
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 27716
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;backend-service.service.consul.        IN      A
+
+;; ANSWER SECTION:
+backend-service.service.consul. 0 IN    A       10.0.9.3
+backend-service.service.consul. 0 IN    A       10.0.9.2
+backend-service.service.consul. 0 IN    A       10.0.9.4
+```
+* Consul provides a DNS Server
+* Works great with Docker ([teaser](): will show in Demo)
+
+
+
+## Sample: REST Lookup
+
+```
+$ curl -s http://192.168.99.106:8500/v1/catalog/service/backend-service 
+[{
+    "Node": "cf2f293e423c",
+    "Address": "192.168.99.111",
+    "ServiceID": "backend-service",
+    "ServiceName": "backend-service",
+    "ServiceAddress": "10.0.9.2",
+    "ServicePort": 8080
+  },{
+    "Node": "072b4ea1abc1",
+    "Address": "192.168.99.112",
+    "ServiceID": "backend-service",
+    "ServiceName": "backend-service",
+    "ServiceAddress": "10.0.9.3",
+    "ServicePort": 8080
+   }]
+```
+
+
+
+#DEMO
+
+![](../images/demo1.png)

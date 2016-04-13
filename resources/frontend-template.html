@@ -1,0 +1,56 @@
+<html>
+<style>
+    * {
+        font-family: Arial;
+    }
+    blockquote {
+        font-family: "Courier New";
+    }
+</style>
+<body>
+
+<h1>Frontend Server {{.ServerName}}</h1>
+<h2>Network</h2>
+<blockquote>
+    {{range .Network}}
+        {{.}}</br>
+    {{end}}
+</blockquote>
+<h2>Response from backend:</h2>
+<button onclick="loadXMLDoc()">Query backend</button>
+<blockquote id="response">
+</blockquote>
+
+<script type="text/javascript">
+            function loadXMLDoc() {
+                var xmlhttp;
+
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+                        if(xmlhttp.status == 200){
+                            var el = document.getElementById("response")
+                            el.innerHTML = xmlhttp.responseText + "</br>" + el.innerHTML;
+                        }
+                        else if(xmlhttp.status == 400) {
+                            alert('There was an error 400')
+                        }
+                        else {
+                            alert('something else other than 200 was returned')
+                        }
+                    }
+                }
+
+                xmlhttp.open("GET", "/api", true);
+                xmlhttp.send();
+            }
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+version: '2'
+
+services:
+  agent-1:
+    image: progrium/consul
+    container_name: consul_agent_1
+    ports:
+      - 8300:8300
+      - 8301:8301
+      - 8301:8301/udp
+      - 8302:8302
+      - 8302:8302/udp
+      - 8400:8400
+      - 8500:8500
+      - 53:53/udp
+    environment:
+      - "constraint:node==nb1"
+    command: -ui-dir /ui -join 192.168.99.106 -advertise 192.168.99.110
+    networks:
+      default:
+        aliases:
+          - agent-1
+
+  agent-2:
+    image: progrium/consul
+    container_name: consul_agent_2
+    ports:
+      - 8300:8300
+      - 8301:8301
+      - 8301:8301/udp
+      - 8302:8302
+      - 8302:8302/udp
+      - 8400:8400
+      - 8500:8500
+      - 53:53/udp
+    environment:
+      - "constraint:node==nb2"
+    command: -ui-dir /ui -join 192.168.99.106 -advertise 192.168.99.111
+    networks:
+      default:
+        aliases:
+          - agent-2
+
+  agent-3:
+    image: progrium/consul
+    container_name: consul_agent_3
+    ports:
+      - 8300:8300
+      - 8301:8301
+      - 8301:8301/udp
+      - 8302:8302
+      - 8302:8302/udp
+      - 8400:8400
+      - 8500:8500
+      - 53:53/udp
+    environment:
+      - "constraint:node==nb3"
+    command: -ui-dir /ui -join 192.168.99.106 -advertise 192.168.99.112
+    networks:
+      default:
+        aliases:
+          - agent-3
+
+networks:
+  default:
+    external:
+      name: my-net

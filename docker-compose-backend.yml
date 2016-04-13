@@ -2,31 +2,43 @@ version: '2'
 
 services:
   backend-1:
-    image: nb-backend
+    image: nb-server
     container_name: Backend1
     ports:
       - 8080:8080
+      - 8081:8081
     environment:
       - "constraint:node==nb1"
+      - SERVER_ID=1
       - SERVERNAME=Server1
+      - PORT=8080
+    command: /entrypoint.sh --type backend
 
   backend-2:
-    image: nb-backend
+    image: nb-server
     container_name: Backend2
     ports:
       - 8080:8080
+      - 8081:8081
     environment:
       - "constraint:node==nb2"
+      - SERVER_ID=2
       - SERVERNAME=Server2
+      - PORT=8080
+    command: /entrypoint.sh --type backend
 
   backend-3:
-    image: nb-backend
+    image: nb-server
     container_name: Backend3
     ports:
       - 8080:8080
+      - 8081:8081
     environment:
       - "constraint:node==nb3"
+      - SERVER_ID=3
       - SERVERNAME=Server3
+      - PORT=8080
+    command: /entrypoint.sh --type backend
 
 networks:
   default:
