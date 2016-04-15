@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  nb-proxy:
+    image: nb-haproxy
+    container_name: nb-haproxy
+    ports:
+      - 1080:1080
+      - 1081:1081
+    environment:
+      - CONSUL_ADDRESS=192.168.99.106:8500
+      - "constraint:node==nb1"
+
+networks:
+  default:
+    external:
+      name: my-net

@@ -13,6 +13,7 @@ import (
 )
 
 var count = 0
+var serverAddress *string
 
 // a very basic handler, which just shows the environment variables
 // and some other information to identify this server.
@@ -41,7 +42,8 @@ func backendHandler(w http.ResponseWriter, r *http.Request) {
 func frontendHandler(w http.ResponseWriter, r *http.Request) {
 
 	if (strings.HasSuffix(r.RequestURI, "/api")) {
-		resp, err := http.Get("http://backend-service:8081/")
+		var address = fmt.Sprintf("http://%s/", *serverAddress)
+		resp, err := http.Get(address)
 		if err != nil {
 			// handle error
 			fmt.Println(err)
@@ -126,6 +128,7 @@ func envVariables() []string {
 func main() {
 
 	var t = flag.String("type", "backend", "Either a backend or frontend service")
+	serverAddress = flag.String("serverAddress", "backend-service:8081", "the address of the backend server")
 	flag.Parse()
 
 	if (*t == "backend") {

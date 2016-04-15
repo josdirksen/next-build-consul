@@ -187,3 +187,66 @@ $ curl -s http://192.168.99.106:8500/v1/catalog/service/backend-service
 #DEMO
 
 ![](../images/demo1.png)
+
+
+
+### Closer look: DNS Lookup
+
+In code:
+```
+resp, err := http.Get("http://backend-service:8081/")
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			defer resp.Body.Close()
+			body, _ := ioutil.ReadAll(resp.Body)
+			w.Header().Set("Content-Type",resp.Header.Get("Content-Type"))
+			w.Write(body)
+		}
+```
+For docker:
+```
+    dns: 192.168.99.106
+    dns_search: service.consul
+```
+
+
+
+# Advanced Consul
+
+
+
+## Consul template
+
+* Render template based on Consul state
+* Setup reverse proxy: `Nginx`, `Apache`, `haproxy`
+
+```
+global
+    daemon
+    maxconn {{key "service/haproxy/maxconn"}}
+
+defaults
+    mode {{key "service/haproxy/mode"}}{{range ls "service/haproxy/timeouts"}}
+    timeout {{.Key}} {{.Value}}{{end}}
+
+listen http-in
+    bind *:8000{{range service "release.web"}}
+    server {{.Node}} {{.Address}}:{{.Port}}{{end}}
+```
+
+
+
+## Demo
+
+
+
+## Envconsul
+
+
+
+## Distributed Locking
+
+
+
+## Prometheus

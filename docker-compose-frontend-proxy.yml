@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  frontend-1:
+    image: nb-server
+    container_name: Frontend1
+    ports:
+      - 8090:8090
+    environment:
+      - "constraint:node==nb1"
+      - SERVER_ID=1
+      - SERVERNAME=Server1
+      - PORT=8090
+    command: /entrypoint.sh --type frontend --serverAddress 192.168.99.110:1081
+    dns: 192.168.99.106
+    dns_search: service.consul
+
+  frontend-2:
+    image: nb-server
+    container_name: Frontend2
+    ports:
+      - 8090:8090
+    environment:
+      - "constraint:node==nb2"
+      - SERVER_ID=2
+      - SERVERNAME=Server2
+      - PORT=8090
+    command: /entrypoint.sh --type frontend --serverAddress 192.168.99.110:1081
+    dns: 192.168.99.106
+    dns_search: service.consul
+
+  frontend-3:
+    image: nb-server
+    container_name: Frontend3
+    ports:
+      - 8090:8090
+    environment:
+      - "constraint:node==nb3"
+      - SERVER_ID=3
+      - SERVERNAME=Server3
+      - PORT=8090
+    command: /entrypoint.sh --type frontend --serverAddress 192.168.99.110:1081
+    dns: 192.168.99.106
+    dns_search: service.consul
+
+networks:
+  default:
+    external:
+      name: my-net

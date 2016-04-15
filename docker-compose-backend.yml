@@ -11,7 +11,7 @@ services:
       - "constraint:node==nb1"
       - SERVER_ID=1
       - SERVERNAME=Server1
-      - PORT=8080
+      - PORT=8081
     command: /entrypoint.sh --type backend
 
   backend-2:
@@ -24,7 +24,7 @@ services:
       - "constraint:node==nb2"
       - SERVER_ID=2
       - SERVERNAME=Server2
-      - PORT=8080
+      - PORT=8081
     command: /entrypoint.sh --type backend
 
   backend-3:
@@ -37,7 +37,7 @@ services:
       - "constraint:node==nb3"
       - SERVER_ID=3
       - SERVERNAME=Server3
-      - PORT=8080
+      - PORT=8081
     command: /entrypoint.sh --type backend
 
 networks:
