@@ -10,7 +10,7 @@ docker-compose -f docker-compose-haproxy.yml up -d
 
 // restart with configured to use haproxy
 docker-compose -f docker-compose-frontend.yml down
-docker-compose -f docker-compose-frontend-proy.yml up -d
+docker-compose -f docker-compose-frontend-proxy.yml up -d
 
 // show config file
 docker exec -ti nb-haproxy cat /etc/haproxy/haproxy.cfg

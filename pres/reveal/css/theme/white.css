@@ -153,6 +153,10 @@ body {
 .reveal code {
   font-family: monospace; }
 
+.reveal li code {
+  color: #2a76dd;
+}
+
 .reveal pre code {
   display: block;
   padding: 5px;
