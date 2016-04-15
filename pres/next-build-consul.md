@@ -13,6 +13,15 @@
 
 
 
+## Follow along
+
+* Sources, presentation etc:
+    * https://github.com/josdirksen/next-build-consul
+* Demo heavy session
+
+![](../images/db-demo.png)
+
+
 ## Microservices?
 
 ![alt text](../images/microservices-hipsters.png )
@@ -100,6 +109,17 @@ Point [DNS]() to a loadbalancer
 * Provides extensive health checking
 
 *All in one package*
+
+
+
+## Good to know
+ 
+* Multi DC-ready
+* API for distributed locks
+* Easy HA Setup
+* Event system
+
+> Consul = Zookeeper + Nagios + DNSMasq + Scriptings + ...
 
 
 
@@ -212,7 +232,7 @@ For docker:
 
 
 
-# Advanced Consul
+# Consul Ecosystem
 
 
 
@@ -249,7 +269,6 @@ listen http-in
 >Store config in the environment", http://12factor.net/
 
 * More settings `>` More complexity
-* Still need central configuration store
 
 ```
 $ envconsul \
@@ -257,6 +276,7 @@ $ envconsul \
   -prefix redis/config \
   redis-server [opts...]
 ```  
+* Vault: help in managing `secrets`
 
 
 
@@ -266,14 +286,22 @@ $ envconsul \
 
 
 
-## Distributed Locking
+### Prometheus & Grafana
 
+![](../images/grafana.png)
 
-
-## Prometheus
-
-
-## Vault
 
 
 ## More information
+
+* links:
+    * https://www.consul.io/
+    * https://github.com/hashicorp/consul-template
+    * https://github.com/hashicorp/envconsul
+* This presentation, sources and docker stuff:
+    * https://github.com/josdirksen/next-build-consul
+
+
+
+# Thank You!
+    
