@@ -239,9 +239,30 @@ listen http-in
 
 ## Demo
 
+![](../images/demo2.png)
+
 
 
 ## Envconsul
+
+>"III. Config
+>Store config in the environment", http://12factor.net/
+
+* More settings `>` More complexity
+* Still need central configuration store
+
+```
+$ envconsul \
+  -consul demo.consul.io \
+  -prefix redis/config \
+  redis-server [opts...]
+```  
+
+
+
+## DEMO ENVCONSUL
+
+![](../images/demo3.png)
 
 
 
@@ -250,3 +271,9 @@ listen http-in
 
 
 ## Prometheus
+
+
+## Vault
+
+
+## More information
