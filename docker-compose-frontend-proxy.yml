@@ -2,7 +2,7 @@ version: '2'
 
 services:
   frontend-1:
-    image: nb-server
+    image: josdirksen/demo-service
     container_name: Frontend1
     ports:
       - 8090:8090
@@ -16,7 +16,7 @@ services:
     dns_search: service.consul
 
   frontend-2:
-    image: nb-server
+    image: josdirksen/demo-service
     container_name: Frontend2
     ports:
       - 8090:8090
@@ -30,7 +30,7 @@ services:
     dns_search: service.consul
 
   frontend-3:
-    image: nb-server
+    image: josdirksen/demo-service
     container_name: Frontend3
     ports:
       - 8090:8090

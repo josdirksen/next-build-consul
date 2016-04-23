@@ -2,7 +2,7 @@ version: '2'
 
 services:
   backend-1:
-    image: nb-server
+    image: josdirksen/demo-service
     container_name: Backend1
     ports:
       - 8080:8080
@@ -15,7 +15,7 @@ services:
     command: /entrypoint.sh --type backend
 
   backend-2:
-    image: nb-server
+    image: josdirksen/demo-service
     container_name: Backend2
     ports:
       - 8080:8080
@@ -28,7 +28,7 @@ services:
     command: /entrypoint.sh --type backend
 
   backend-3:
-    image: nb-server
+    image: josdirksen/demo-service
     container_name: Backend3
     ports:
       - 8080:8080
